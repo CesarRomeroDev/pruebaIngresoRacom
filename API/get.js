@@ -11,17 +11,15 @@ let output = '';
 const renderPosts = (posts) => {
     posts.forEach(post => {
         output += `
-            <tbody>
-                 <tr>
-                     <td>${post.id}</td>
-                     <td>${post.nombre}</td>
+                 <tr data-id=${post.id}>
+                     <td class="id">${post.id}</td>
+                     <td class="name">${post.nombre}</td>
                      <td>${post.serie}</td>
                      <td>${post.tipo}</td>
                      <td>${post.usuarioId}</td>
-                     <td><button id="edit-post" class="btn waves-effect waves-light" type="submit" name="action">Editar<i class="material-icons right">send</i></button></td>
-                     <td><button id="delete-post" class="btn waves-effect waves-light" type="submit" name="action">Borrar<i class="material-icons right">send</i></button></td>
+                     <td><button id="edit-post" class="btn waves-effect waves-light" type="submit" name="action"><i class="material-icons right">edit</i></button></td>
+                     <td><button id="delete-post" class="btn waves-effect waves-light" type="submit" name="action"><i class="material-icons right">delete</i></button></td>
                  </tr>
-            </tbody>
                  `;
     });
     list.innerHTML = output;
@@ -39,17 +37,23 @@ list.addEventListener('click', (e) => {
     let delButtonIsPressed = e.target.id == 'delete-post';
     let editButtonIsPressed = e.target.id == 'edit-post';
 
-    // let id = e.target.parentElement.dataset.id;
-    console.log(e.target.parentElement.dataset.id)
+    let id = e.target.parentElement.dataset.id;
 
-    //delete
-    //method DELETE
-    if(delButtonIsPressed) {
-        fetch(`${url}/sdkkfhsdkfjsd`)
-        //     method: 'DELETE',
-        // })
-        // .then(res => res.json())
-        // .then(() => location.reload())
+    // //delete
+    // //method DELETE
+    if(delButtonIsPressed){
+        fetch(`${url}/${id}`, {
+            method: 'DELETE',
+        })
+        .then(res => res.json())
+        .then(() => location.reload())
+    }
+
+    //method PUT
+    if(editButtonIsPressed){
+        const parent = e.target.parentElement;
+        let idContent = parent.querySelector('.name').textContent;
+        console.log(idContent);
     }
 });
     
